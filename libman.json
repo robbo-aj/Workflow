@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "filesystem",
+      "library": "C:\\Program Files (x86)\\Progress\\Telerik UI for ASP.NET Core R1 2019\\js",
+      "destination": "wwwroot/lib/js/",
+      "files": [
+        "kendo.all.min.js",
+        "kendo.aspnetmvc.min.js"
+      ]
+    }
+  ]
+}

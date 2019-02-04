@@ -1,0 +1,58 @@
+﻿@using Workflow.Models;
+
+@model IEnumerable<PersonViewModel>;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>People List</h2>
+
+@(Html.Kendo().Grid<PersonViewModel>(Model)
+    .Name("PeopleGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Id).Hidden();
+        columns.Bound(p => p.FirstName).Title("First Name").Width(250);
+        columns.Bound(p => p.LastName).Title("Last Name").Width(250);
+        columns.Bound(p => p.Nickname).Title("Nickname").Width(250);
+        columns.Bound(p => p.Age).Title("Age").Width(100);
+        columns.Bound(p => p.HobbiesAsString).Title("Hobbies");
+    })
+    .Scrollable(sc => sc.Endless(true))
+    .Sortable()
+    .Selectable(selectable => selectable
+        .Mode(GridSelectionMode.Single))
+    .PersistSelection(false)
+    .Events(events =>
+        events.Change("onChange")
+    )
+    .HtmlAttributes(new { style = "height: 300px;" })
+    .Pageable(pageable => pageable
+        .Refresh(true)
+        .PageSizes(true)
+        .ButtonCount(5))
+)
+
+<script type="text/javascript">
+
+    function getRootUrl() {
+        var baseUrl = document.getElementById("BaseUrl");
+        var url = baseUrl.href;
+        var len1 = url.length;
+        if (url.substring(len1 - 1, len1) !== '/') {
+            url = url + '/';
+        }
+        return url;
+    }
+
+    function onChange() {
+        var data = this.dataItem(this.select());
+        var id = data.Id;
+        var root = getRootUrl();
+        var query = root + 'Person/Edit/' + id;
+        window.location.replace(query);
+    }
+
+</script>
