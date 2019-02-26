@@ -66,6 +66,8 @@ namespace Workflow.Controllers
         {
             SetBaseUrl(this.HttpContext);
 
+            var referrer = this.Request.Headers["Referer"].ToString();
+
             var person = _personService.GetPerson(id);
             return View(person);
         }
@@ -77,18 +79,21 @@ namespace Workflow.Controllers
         {
             SetBaseUrl(this.HttpContext);
 
-            try
-            {
-                // Get the serialised hobby data and set it as a property of the person
-                var hobbies = JsonConvert.DeserializeObject<List<HobbyViewModel>>(person.SerialisedHobbies);
-                person.Hobbies = hobbies;
+            if (person.FirstName == "Peter")
+                ModelState.AddModelError("PETE", "Pete is not allowed to be updated");
+            
+            // Get the serialised hobby data and set it as a property of the person
+            var hobbies = JsonConvert.DeserializeObject<List<HobbyViewModel>>(person.SerialisedHobbies);
+            person.Hobbies = hobbies;
 
-                _personService.UpdatePerson(person);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            if (!ModelState.IsValid)
             {
                 return View(person);
+            }
+            else
+            {
+                _personService.UpdatePerson(person);
+                return RedirectToAction(nameof(Index));
             }
         }
 

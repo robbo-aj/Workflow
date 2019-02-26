@@ -12,8 +12,14 @@
 
   <ItemGroup>
     <Reference Include="Kendo.Mvc">
-      <HintPath>C:\Program Files (x86)\Progress\Telerik UI for ASP.NET Core R1 2019\wrappers\aspnetcore\Binaries\AspNet.Core\Kendo.Mvc.dll</HintPath>
+      <HintPath>..\..\Source\Telerik\lib\netstandard2.0\Kendo.Mvc.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Person\Partials\EditGrid.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

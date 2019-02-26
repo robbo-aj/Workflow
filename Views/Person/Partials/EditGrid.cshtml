@@ -1,0 +1,36 @@
+﻿@using Workflow.Models;
+
+@model PersonViewModel
+
+<div class="form-group">
+    @(Html.Kendo().Grid<HobbyViewModel>(Model.Hobbies)
+                        .Name("HobbyGrid")
+                        .ToolBar(toolbar =>
+                        {
+                            toolbar.Save();
+                        })
+                        .Columns(columns =>
+                        {
+                            columns.Bound(p => p.Id).Hidden();
+                            columns.Bound(p => p.Name).Title("Hobby").Width(250);
+                            columns.Bound(p => p.Started).Title("Started Hobby").Format("{0:dd-MMM-yyyy}").Width(250);
+                            columns.Command(command => command.Destroy()).Width(80).Title("Action");
+                        })
+                        .Scrollable()
+                        .Sortable()
+                        .Editable(editable => editable.Mode(GridEditMode.InCell).DisplayDeleteConfirmation(false))
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Batch(true)
+                            .PageSize(20)
+                            .ServerOperation(false)
+                            .Model(model => model.Id(p => p.Id))
+                        )
+
+                        .HtmlAttributes(new { style = "height: 300px;" })
+                        .Pageable(pageable => pageable
+                            .Refresh(true)
+                            .PageSizes(true)
+                            .ButtonCount(5))
+    )
+</div>

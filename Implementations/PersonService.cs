@@ -54,7 +54,7 @@ namespace Workflow.Implementations
                         new HobbyViewModel
                         {
                             Id = 1,
-                            Name = "Taxi Driver",
+                            Name = "Fixing Pete's code",
                             Started = new DateTime(2018, 7, 1)
                         },
 
@@ -88,7 +88,7 @@ namespace Workflow.Implementations
                     Id = 3,
                     FirstName = "Matt",
                     LastName = "Young",
-                    Nickname = "Gaffer",
+                    Nickname = "Youngo",
                     Age = 38,
                     Hobbies = new List<HobbyViewModel>()
                     {
@@ -97,6 +97,12 @@ namespace Workflow.Implementations
                             Id = 1,
                             Name = "Commuting",
                             Started = new DateTime(2007, 5, 1)
+                        },
+                        new HobbyViewModel
+                        {
+                            Id = 2,
+                            Name = "Killing virtual people",
+                            Started = new DateTime(2012, 6, 1)
                         }
                     }
                 }

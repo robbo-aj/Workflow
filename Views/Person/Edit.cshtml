@@ -14,6 +14,8 @@
 
     @Html.HiddenFor(p => p.SerialisedHobbies, new { id = "HobbyData" })
 
+    <div asp-validation-summary="All" class="text-danger"></div>
+
     <div class="row">
         <div class="col-md-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -38,36 +40,7 @@
                 <span asp-validation-for="Age" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @(Html.Kendo().Grid<HobbyViewModel>(Model.Hobbies)
-                            .Name("HobbyGrid")
-                            .ToolBar(toolbar =>
-                            {
-                                toolbar.Create().Text("Add a new Hobby");
-                            })
-                            .Columns(columns =>
-                            {
-                                columns.Bound(p => p.Id).Hidden();
-                                columns.Bound(p => p.Name).Title("Hobby").Width(250);
-                                columns.Bound(p => p.Started).Title("Started Hobby").Format("{0:dd-MMM-yyyy}").Width(250);
-                                columns.Command(command => command.Destroy()).Width(80).Title("Action");
-                            })
-                            .Scrollable()
-                            .Sortable()
-                            .Editable(editable => editable.Mode(GridEditMode.InCell))
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                .Batch(true)
-                                .PageSize(20)
-                                .ServerOperation(false)
-                                .Model(model => model.Id(p => p.Id))
-                            )
-
-                            .HtmlAttributes(new { style = "height: 300px;" })
-                            .Pageable(pageable => pageable
-                                .Refresh(true)
-                                .PageSizes(true)
-                                .ButtonCount(5))
-                )
+                <partial name="Partials/EditGrid.cshtml" />
             </div>
             <hr />
             <div class="form-group">
@@ -89,10 +62,24 @@
 
 <script type="text/javascript">
 
+    function onRequestCancelChanges() {
+        alert("1111");
+    }
+
     function onSavePerson() {
-        var json = kendo.stringify($("#HobbyGrid").data("kendoGrid").dataSource.view());
+        var grid = $("#HobbyGrid").data("kendoGrid");
+        grid.dataSource.sync();
+        var json = kendo.stringify(grid.dataSource.view());
         $("#HobbyData").val(json);
         $("#EditPersonForm").submit();
     }
 
 </script>
+
+<style>
+
+    #HobbyGrid a.k-button.k-grid-save-changes {
+        display: none;
+    }
+
+</style>
